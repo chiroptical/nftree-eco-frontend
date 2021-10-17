@@ -5,11 +5,10 @@ test:
 	spago test
 
 serve:
-	spago bundle-app --to dev/index.js
 	parcel dev/index.html --port 3000
 
 watch:
-	spago build --watch
+	spago bundle-app --watch --to dev/index.js
 
 build-prod:
 	mkdir -p prod

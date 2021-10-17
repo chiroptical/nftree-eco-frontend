@@ -1,6 +1,9 @@
 module Page.Register where
 
 import Prelude
+import Data.Argonaut.Core as A
+import Data.Codec.Argonaut as CA
+import Data.Codec.Argonaut.Record as CAR
 import Data.Either (Either(..))
 import Data.Maybe (Maybe(..))
 import Effect.Aff as Aff
@@ -47,6 +50,18 @@ component =
 fetch :: M.Fetch
 fetch = M.fetch windowFetch
 
+type User
+  = { username :: String, password :: String }
+
+userCodec :: CA.JsonCodec User
+userCodec =
+  CA.object "User"
+    ( CAR.record
+        { username: CA.string
+        , password: CA.string
+        }
+    )
+
 handleAction ::
   forall s o m.
   MonadAff m =>
@@ -59,9 +74,20 @@ handleAction = case _ of
       H.liftAff
         $ Aff.attempt
         $ fetch
-            -- TODO: Should have some kind of abstraction here
-            (M.URL $ "http://localhost:8080/register")
-            M.defaultFetchOptions
+            -- TODO: Abstract backend urls to some record type
+            -- TODO: Abstract post requests
+            (M.URL $ "http://localhost:8081/auth/login")
+            { method: M.postMethod
+            , credentials: M.includeCredentials
+            , body:
+                A.stringify
+                  $ CA.encode userCodec
+                      { username: "chiroptical", password: "chiroptical" }
+            , headers:
+                M.makeHeaders
+                  { "Content-Type": "application/json"
+                  }
+            }
     case response_ of
       Right response -> H.put { statusCode: Just $ M.statusCode response }
       Left e -> log $ "Left: " <> show e

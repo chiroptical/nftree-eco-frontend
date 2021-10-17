@@ -13,7 +13,6 @@
   , "psci-support"
   , "routing"
   , "routing-duplex"
-  , "spec"
   , "transformers"
   , "type-equality"
   , "web-events"

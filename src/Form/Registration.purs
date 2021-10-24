@@ -3,18 +3,18 @@ module Form.Registration where
 import Prelude
 import Data.Maybe (Maybe(..))
 import Data.Newtype (class Newtype)
-import Formless as F
 import Data.User (User)
-import Type.Proxy (Proxy(..))
+import Formless as F
 import Halogen.HTML as HH
-import Tailwind as T
 import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
+import Tailwind as T
+import Type.Proxy (Proxy(..))
 
 newtype RegistrationForm (r :: Row Type -> Type) f
   = RegistrationForm
   ( r
-      --          error    input  output
+      -- f {error} {input} {output}
       ( username :: f Void String String
       , email :: f Void String String
       , password :: f Void String String
@@ -53,7 +53,7 @@ registrationFormSpec = F.defaultSpec { render = _render, handleEvent = F.raiseRe
           [ HH.div
               []
               [ HH.label
-                  [ HP.classes [ T.srOnly ], HP.for "username" ]
+                  [ HP.classes [ T.srOnly ] ]
                   [ HH.text "Username" ]
               , HH.input
                   [ HP.placeholder "Username"
@@ -76,10 +76,9 @@ registrationFormSpec = F.defaultSpec { render = _render, handleEvent = F.raiseRe
                       , T.focusZ10
                       , T.smTextSm
                       ]
-                  , HP.required true
-                  , HP.type_ HP.InputText
                   , HP.value $ F.getInput _username form
                   , HE.onValueInput $ F.setValidate _username
+                  , HP.type_ HP.InputText
                   , HP.name "username"
                   , HP.id "username"
                   ]
@@ -87,7 +86,7 @@ registrationFormSpec = F.defaultSpec { render = _render, handleEvent = F.raiseRe
           , HH.div
               []
               [ HH.label
-                  [ HP.classes [ T.srOnly ], HP.for "email" ]
+                  [ HP.classes [ T.srOnly ] ]
                   [ HH.text "Email address" ]
               , HH.input
                   [ HP.placeholder "Email address"
@@ -110,11 +109,9 @@ registrationFormSpec = F.defaultSpec { render = _render, handleEvent = F.raiseRe
                       , T.focusZ10
                       , T.smTextSm
                       ]
-                  , HP.required true
-                  , HP.autocomplete true
-                  , HP.type_ HP.InputEmail
                   , HP.value $ F.getInput _email form
                   , HE.onValueInput $ F.setValidate _email
+                  , HP.type_ HP.InputEmail
                   , HP.name "email"
                   , HP.id "email"
                   ]
@@ -122,7 +119,7 @@ registrationFormSpec = F.defaultSpec { render = _render, handleEvent = F.raiseRe
           , HH.div
               []
               [ HH.label
-                  [ HP.classes [ T.srOnly ], HP.for "password" ]
+                  [ HP.classes [ T.srOnly ] ]
                   [ HH.text "Password" ]
               , HH.input
                   [ HP.placeholder "Password"
@@ -145,11 +142,9 @@ registrationFormSpec = F.defaultSpec { render = _render, handleEvent = F.raiseRe
                       , T.focusZ10
                       , T.smTextSm
                       ]
-                  , HP.required true
-                  , HP.autocomplete true
-                  , HP.type_ HP.InputPassword
                   , HP.value $ F.getInput _password form
                   , HE.onValueInput $ F.set _password
+                  , HP.type_ HP.InputPassword
                   , HP.name "password"
                   , HP.id "password"
                   ]
@@ -179,7 +174,6 @@ registrationFormSpec = F.defaultSpec { render = _render, handleEvent = F.raiseRe
                   , T.focusRingOffset2
                   , T.focusRingIndigo500
                   ]
-              -- , HP.type_ HP.ButtonSubmit
               , HE.onClick \_ -> F.submit
               ]
               [ HH.text "Register"

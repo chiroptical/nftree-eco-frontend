@@ -12,7 +12,7 @@ import Env (Env)
 import Halogen as H
 import Halogen.Aff as HA
 import Halogen.VDom.Driver (runUI)
-import Prelude (Unit, Void, bind, void, when, ($), (/=), discard, (<>), show, (>>=), pure)
+import Prelude
 import Routing.Duplex (parse)
 import Routing.PushState (makeInterface, matchesWith)
 import Service.Route (Route(..), routeCodec)

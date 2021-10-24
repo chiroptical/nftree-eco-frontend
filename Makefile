@@ -10,18 +10,17 @@ serve:
 watch:
 	spago bundle-app --watch --to dev/index.js
 
-build-prod:
+build-prod: tailwind-css
 	mkdir -p prod
 	cp dev/index.html prod
-	twpurs gen-css --src src/Page --css prod/tailwind.css
 	spago bundle-app --to prod/index.js
-	parcel build prod/index.html
+	parcel build prod/index.html --no-minify
 
 format:
 	purty format src/ --write
 
 # The tailwind commands are meant to be run in sequential order
-tailwind-css:
+tailwind-base-css:
 	npx tailwindcss -o dev/tailwind.css
 
 tailwind-classes:
@@ -30,4 +29,7 @@ tailwind-classes:
 tailwind-purs:
 	twpurs gen-purs
 
-.PHONY: build test serve watch build-prod format tailwind-css tailwind-classes tailwind-purs
+tailwind-css:
+	twpurs gen-css --css dev/tailwind.css --out prod/tailwind.css
+
+.PHONY: build test serve watch build-prod format tailwind-base-css tailwind-classes tailwind-purs tailwind-css

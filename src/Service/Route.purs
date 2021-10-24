@@ -3,14 +3,13 @@ module Service.Route where
 import Prelude
 import Data.Generic.Rep (class Generic)
 import Data.Show.Generic (genericShow)
-import Routing.Duplex (RouteDuplex', optional, params, string, path, root)
+import Routing.Duplex (RouteDuplex', path, root)
 import Routing.Duplex.Generic (noArgs, sum)
-import Data.Params (RegistrationParams, LoginParams)
 
 data Route
   = Home
-  | Register RegistrationParams
-  | Login LoginParams
+  | Register
+  | Login
 
 derive instance genericRoute :: Generic Route _
 
@@ -26,19 +25,6 @@ routeCodec =
   root
     $ sum
         { "Home": noArgs
-        , "Register":
-            path "register"
-              ( params
-                  { username: optional <<< string
-                  , email: optional <<< string
-                  , password: optional <<< string
-                  }
-              )
-        , "Login":
-            path "login"
-              ( params
-                  { username: optional <<< string
-                  , password: optional <<< string
-                  }
-              )
+        , "Register": path "register" noArgs
+        , "Login": path "login" noArgs
         }

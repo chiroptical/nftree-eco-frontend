@@ -2,7 +2,6 @@ module Component.Router where
 
 import Data.Either (hush)
 import Data.Maybe (Maybe(..), fromMaybe)
-import Data.Params (emptyLoginParams, emptyRegistrationParams)
 import Effect.Aff.Class (class MonadAff)
 import Effect.Class (class MonadEffect, liftEffect)
 import Effect.Class.Console (log)
@@ -71,8 +70,8 @@ render { route } =
   navbar
     $ case route of
         Home -> HH.slot_ Home._home unit Home.component unit
-        Register _ -> HH.slot_ Register._register unit Register.component { statusCode: Nothing }
-        Login _ -> HH.slot_ Login._login unit Login.component { statusCode: Nothing }
+        Register -> HH.slot_ Register._register unit Register.component {}
+        Login -> HH.slot_ Login._login unit Login.component { statusCode: Nothing }
 
 handleAction ::
   forall o m.
@@ -128,14 +127,14 @@ navbar html =
         , HH.li_
             [ HH.a
                 [ HP.href "#"
-                , HE.onClick $ GoTo (Register emptyRegistrationParams)
+                , HE.onClick $ GoTo Register
                 ]
                 [ HH.text "Register" ]
             ]
         , HH.li_
             [ HH.a
                 [ HP.href "#"
-                , HE.onClick $ GoTo (Login emptyLoginParams)
+                , HE.onClick $ GoTo Login
                 ]
                 [ HH.text "Login" ]
             ]

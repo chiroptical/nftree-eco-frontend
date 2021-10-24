@@ -1,25 +1,18 @@
 module Page.Register where
 
 import Prelude
-import Data.Argonaut.Core as A
-import Data.Either (Either(..))
-import Data.Maybe (Maybe(..))
-import Effect.Aff as Aff
+import Data.User (User)
 import Effect.Aff.Class (class MonadAff)
 import Effect.Class (class MonadEffect)
 import Effect.Class.Console (logShow)
+import Form.Registration (registrationFormInput, registrationFormSpec)
+import Formless as F
 import Halogen as H
 import Halogen.HTML as HH
-import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
-import Milkis as M
-import Milkis.Impl.Window (windowFetch)
 import Service.Navigate (class Navigate)
 import Tailwind as T
 import Type.Proxy (Proxy(..))
-import Formless as F
-import Data.User (User)
-import Form.Registration (registrationFormInput, registrationFormSpec)
 
 data Action
   = HandleRegistrationForm User
@@ -27,31 +20,20 @@ data Action
 type Slot p
   = forall query. H.Slot query Void p
 
-type State
-  = { statusCode :: Maybe Int }
-
 _register :: Proxy "register"
 _register = Proxy
 
-fetch :: M.Fetch
-fetch = M.fetch windowFetch
-
 component ::
-  forall q o m.
+  forall q s o m.
   MonadAff m =>
   MonadEffect m =>
   Navigate m =>
-  H.Component q State o m
+  H.Component q s o m
 component =
   H.mkComponent
     { initialState: identity
     , render
-    , eval:
-        H.mkEval
-          $ H.defaultEval
-              { handleAction = handleAction
-              , initialize = Nothing
-              }
+    , eval: H.mkEval $ H.defaultEval { handleAction = handleAction }
     }
   where
   handleAction = case _ of
@@ -93,6 +75,10 @@ component =
           HandleRegistrationForm
       ]
 
+-- fetch :: M.Fetch
+-- fetch = M.fetch windowFetch
+-- import Milkis as M
+-- import Milkis.Impl.Window (windowFetch)
 --  Initialize -> do
 --    response_ <-
 --      H.liftAff

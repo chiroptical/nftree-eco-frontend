@@ -11,6 +11,10 @@ in
       pkgs.nodePackages.parcel-bundler
       pkgs.nodePackages.purty
       pkgs.nodePackages.purescript-language-server
+
+      # Tailwind dependencies
+      pkgs.cabal2nix
+      pkgs.nodePackages.npm
       tailwind-purs
     ];
   }

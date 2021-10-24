@@ -18,6 +18,8 @@
   , "web-events"
   , "web-html"
   , "web-uievents"
+  , "halogen-formless"
+  , "newtype"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]

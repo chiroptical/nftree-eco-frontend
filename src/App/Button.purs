@@ -19,7 +19,7 @@ component =
     , eval: H.mkEval H.defaultEval { handleAction = handleAction }
     }
 
-render :: forall cs m. State -> H.ComponentHTML Action cs m
+render :: forall cs m. State → H.ComponentHTML Action cs m
 render state =
   HH.div_
     [ HH.p_
@@ -29,6 +29,6 @@ render state =
         [ HH.text "Click me" ]
     ]
 
-handleAction :: forall cs o m. Action → H.HalogenM State Action cs o m Unit
+handleAction :: forall cs o m. Action -> H.HalogenM State Action cs o m Unit
 handleAction = case _ of
   Increment -> H.modify_ \st -> st { count = st.count + 1 }

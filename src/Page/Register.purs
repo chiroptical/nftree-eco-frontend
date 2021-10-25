@@ -5,7 +5,7 @@ import Data.User (User)
 import Effect.Aff.Class (class MonadAff)
 import Effect.Class (class MonadEffect)
 import Effect.Class.Console (logShow)
-import Form.Registration (registrationFormInput, registrationFormSpec)
+import Form.Registration (formComponent)
 import Formless as F
 import Halogen as H
 import Halogen.HTML as HH
@@ -70,7 +70,7 @@ component =
       , HH.slot
           F._formless
           unit
-          (F.component (const registrationFormInput) registrationFormSpec)
+          formComponent
           unit
           HandleRegistrationForm
       ]

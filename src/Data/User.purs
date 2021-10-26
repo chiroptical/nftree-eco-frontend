@@ -4,7 +4,10 @@ import Data.Codec.Argonaut as CA
 import Data.Codec.Argonaut.Record as CAR
 
 type User
-  = { username :: String, email :: String, password :: String }
+  = { username :: String
+    , email :: String
+    , password :: String
+    }
 
 userCodec :: CA.JsonCodec User
 userCodec =

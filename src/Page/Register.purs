@@ -1,15 +1,22 @@
 module Page.Register where
 
 import Prelude
-import Data.User (User)
+import Data.Argonaut.Core as A
+import Data.Codec.Argonaut as CA
+import Data.Either (Either(..))
+import Data.User (User, userCodec)
+import Effect.Aff as Aff
 import Effect.Aff.Class (class MonadAff)
 import Effect.Class (class MonadEffect)
-import Effect.Class.Console (logShow)
+import Effect.Class.Console (log)
 import Form.Registration (formComponent)
 import Formless as F
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Properties as HP
+import Milkis (statusCode)
+import Milkis as M
+import Milkis.Impl.Window (windowFetch)
 import Service.Navigate (class Navigate)
 import Tailwind as T
 import Type.Proxy (Proxy(..))
@@ -37,7 +44,31 @@ component =
     }
   where
   handleAction = case _ of
-    HandleRegistrationForm user -> logShow user
+    HandleRegistrationForm user -> do
+      let
+        fetch = M.fetch windowFetch
+      response_ <-
+        H.liftAff
+          $ Aff.attempt
+          $ fetch
+              -- TODO: Abstract backend urls to some record type
+              -- TODO: Abstract post requests
+              (M.URL $ "http://localhost:8081/auth/register")
+              { method: M.postMethod
+              , credentials: M.includeCredentials
+              , body:
+                  A.stringify
+                    $ CA.encode userCodec user
+              , headers:
+                  M.makeHeaders
+                    { "Content-Type": "application/json"
+                    }
+              }
+      -- TODO: Send user back to the home page
+      -- TODO: Move error handling into form component
+      case response_ of
+        Right response -> log $ "Heckin' yes: " <> show (statusCode response)
+        Left e -> log $ "Heckin' no: " <> show e
 
   render _ =
     HH.div
@@ -57,6 +88,7 @@ component =
           [ HP.classes [ T.maxWMd, T.wFull, T.spaceY8 ] ]
           [ HH.div
               []
+              -- TODO: We reload this svg over and over again...
               [ HH.img
                   [ HP.alt "Workflow"
                   , HP.src "https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
@@ -74,30 +106,3 @@ component =
           unit
           HandleRegistrationForm
       ]
-
--- fetch :: M.Fetch
--- fetch = M.fetch windowFetch
--- import Milkis as M
--- import Milkis.Impl.Window (windowFetch)
---  Initialize -> do
---    response_ <-
---      H.liftAff
---        $ Aff.attempt
---        $ fetch
---            -- TODO: Abstract backend urls to some record type
---            -- TODO: Abstract post requests
---            (M.URL $ "http://localhost:8081/auth/login")
---            { method: M.postMethod
---            , credentials: M.includeCredentials
---            , body:
---                A.stringify
---                  $ CA.encode userCodec
---                      { username: "chiroptical", password: "chiroptical" }
---            , headers:
---                M.makeHeaders
---                  { "Content-Type": "application/json"
---                  }
---            }
---    case response_ of
---      Right response -> H.put { statusCode: Just $ M.statusCode response }
---      Left e -> log $ "Left: " <> show e

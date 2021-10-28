@@ -47,6 +47,7 @@ component =
     HandleRegistrationForm user -> do
       let
         fetch = M.fetch windowFetch
+      -- TODO: Replace this with Request.post
       response_ <-
         H.liftAff
           $ Aff.attempt

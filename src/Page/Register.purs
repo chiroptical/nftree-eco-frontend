@@ -64,8 +64,7 @@ component =
       ]
       [ HH.div
           [ HP.classes [ T.maxWMd, T.wFull, T.spaceY8 ] ]
-          [ HH.div
-              []
+          [ HH.div_
               -- TODO: We reload this svg over and over again...
               [ HH.img
                   [ HP.alt "Workflow"

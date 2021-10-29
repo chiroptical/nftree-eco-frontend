@@ -15,6 +15,7 @@ import Type.Proxy (Proxy(..))
 import Web.Event.Event as Event
 import Css.Input as Css
 
+-- TODO: Need to add validation for these fields
 newtype RegistrationForm (r :: Row Type -> Type) f
   = RegistrationForm
   ( r

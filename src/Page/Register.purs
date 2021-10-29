@@ -2,6 +2,7 @@ module Page.Register where
 
 import Prelude
 import Data.Either (Either(..))
+import Data.Maybe (Maybe(..))
 import Data.User (User, userCodec)
 import Effect.Aff.Class (class MonadAff)
 import Effect.Class (class MonadEffect)
@@ -11,11 +12,12 @@ import Formless as F
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Properties as HP
-import Milkis (statusCode)
-import Service.Navigate (class Navigate)
+import Milkis (statusCode, text)
+import Request as Request
+import Service.Navigate (class Navigate, navigate)
+import Service.Route as Route
 import Tailwind as T
 import Type.Proxy (Proxy(..))
-import Request as Request
 
 data Action
   = HandleRegistrationForm User
@@ -23,15 +25,19 @@ data Action
 type Slot p
   = forall query. H.Slot query Void p
 
+type State
+  = { registrationError :: Maybe String
+    }
+
 _register :: Proxy "register"
 _register = Proxy
 
 component ::
-  forall q s o m.
+  forall q o m.
   MonadAff m =>
   MonadEffect m =>
   Navigate m =>
-  H.Component q s o m
+  H.Component q State o m
 component =
   H.mkComponent
     { initialState: identity
@@ -45,10 +51,19 @@ component =
       -- TODO: Send user back to the home page
       -- TODO: Move error handling into form component
       case response_ of
-        Right response -> log $ "Heckin' yes: " <> show (statusCode response)
-        Left e -> log $ "Heckin' no: " <> show e
+        Right response -> do
+          case statusCode response of
+            204 -> navigate Route.Home
+            403 -> do
+              body <- H.liftAff $ text response
+              H.modify_ $ _ { registrationError = Just body }
+            500 -> H.modify_ $ _ { registrationError = Just "Something went wrong..." }
+            _ -> H.modify_ $ _ { registrationError = Just "TODO: email contact information" }
+        Left e -> do
+          log $ "Unable to handle request, got error: " <> show e
+          H.modify_ $ _ { registrationError = Just "Unable to handle your request..." }
 
-  render _ =
+  render { registrationError } =
     HH.div
       [ HP.classes
           [ T.minHScreen
@@ -82,4 +97,7 @@ component =
           formComponent
           unit
           HandleRegistrationForm
+      , -- TODO: Tailwind the heck out this case registrationError of
+          Nothing -> HH.text ""
+          Just message -> HH.text message
       ]

@@ -25,6 +25,7 @@ renderBackendRoute =
           AuthRegister -> host <> "auth/register"
           AuthLogin -> host <> "auth/login"
 
+fetch :: M.Fetch
 fetch = M.fetch windowFetch
 
 post :: forall a. BackendRoute -> JsonCodec a -> a -> Aff (Either Error M.Response)

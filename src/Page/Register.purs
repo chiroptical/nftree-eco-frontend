@@ -1,11 +1,8 @@
 module Page.Register where
 
 import Prelude
-import Data.Argonaut.Core as A
-import Data.Codec.Argonaut as CA
 import Data.Either (Either(..))
 import Data.User (User, userCodec)
-import Effect.Aff as Aff
 import Effect.Aff.Class (class MonadAff)
 import Effect.Class (class MonadEffect)
 import Effect.Class.Console (log)
@@ -15,11 +12,10 @@ import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Properties as HP
 import Milkis (statusCode)
-import Milkis as M
-import Milkis.Impl.Window (windowFetch)
 import Service.Navigate (class Navigate)
 import Tailwind as T
 import Type.Proxy (Proxy(..))
+import Request as Request
 
 data Action
   = HandleRegistrationForm User
@@ -45,26 +41,7 @@ component =
   where
   handleAction = case _ of
     HandleRegistrationForm user -> do
-      let
-        fetch = M.fetch windowFetch
-      -- TODO: Replace this with Request.post
-      response_ <-
-        H.liftAff
-          $ Aff.attempt
-          $ fetch
-              -- TODO: Abstract backend urls to some record type
-              -- TODO: Abstract post requests
-              (M.URL $ "http://localhost:8081/auth/register")
-              { method: M.postMethod
-              , credentials: M.includeCredentials
-              , body:
-                  A.stringify
-                    $ CA.encode userCodec user
-              , headers:
-                  M.makeHeaders
-                    { "Content-Type": "application/json"
-                    }
-              }
+      response_ <- H.liftAff $ Request.post Request.AuthRegister userCodec user
       -- TODO: Send user back to the home page
       -- TODO: Move error handling into form component
       case response_ of

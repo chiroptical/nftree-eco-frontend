@@ -97,7 +97,7 @@ component =
           formComponent
           unit
           HandleRegistrationForm
-      , -- TODO: Tailwind the heck out this case registrationError of
+      , -- TODO: Tailwind the heck out this case registrationError of case registrationError of
           Nothing -> HH.text ""
           Just message -> HH.text message
       ]

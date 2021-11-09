@@ -20,8 +20,7 @@ newtype RegistrationForm (r :: Row Type -> Type) f
   = RegistrationForm
   ( r
       -- f {error} {input} {output}
-      ( username :: f Void String String
-      , email :: f Void String String
+      ( email :: f Void String String
       , password :: f Void String String
       )
   )
@@ -47,8 +46,7 @@ formComponent =
     { initialInputs: Nothing -- same as: Just (F.wrapInputFields { name: "", age: "" })
     , validators:
         RegistrationForm
-          { username: F.noValidation
-          , email: F.noValidation
+          { email: F.noValidation
           , password: F.noValidation
           }
     }
@@ -59,8 +57,6 @@ formComponent =
     Submit event -> do
       H.liftEffect $ Event.preventDefault event
       F.handleAction handleAction handleEvent F.submit
-
-  _username = Proxy :: Proxy "username"
 
   _email = Proxy :: Proxy "email"
 
@@ -73,15 +69,6 @@ formComponent =
       ]
       [ HH.fieldset_
           [ HH.input
-              [ HP.value $ F.getInput _username form
-              , HE.onValueInput $ F.setValidate _username
-              , HP.type_ HP.InputText
-              , HP.placeholder "Username"
-              , HP.name "username"
-              , HP.id "username"
-              , HP.classes Css.input
-              ]
-          , HH.input
               [ HP.value $ F.getInput _email form
               , HE.onValueInput $ F.setValidate _email
               , HP.type_ HP.InputEmail

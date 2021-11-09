@@ -1,20 +1,19 @@
-{ pkgs ? import ./nix/pkgs.nix {} }:
-
 let
+  sources = import ./nix/sources.nix;
+  pkgs = import sources.nixpkgs {};
   tailwind-purs = pkgs.haskellPackages.callPackage ./nix/tailwind-purs.nix {};
 in
   pkgs.mkShell {
-    buildInputs = [
-      pkgs.purescript
-      pkgs.spago
-      pkgs.nodePackages.pscid
-      pkgs.nodePackages.parcel-bundler
-      pkgs.nodePackages.purty
-      pkgs.nodePackages.purescript-language-server
+    buildInputs = with pkgs; [
+      purescript
+      spago
+      nodePackages.pscid
+      nodePackages.parcel-bundler
+      nodePackages.purty
 
       # Tailwind dependencies
-      pkgs.cabal2nix
-      pkgs.nodePackages.npm
+      cabal2nix
+      nodePackages.npm
       tailwind-purs
     ];
   }

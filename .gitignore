@@ -12,3 +12,7 @@
 .envrc
 /dev/index.js
 /prod/
+/.cache/
+/dist/
+dev/tailwind.css
+tailwind-classes.txt

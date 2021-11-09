@@ -3,11 +3,11 @@
 TODO
 ---
 
-- [ ] Build a record of backend routes to avoid confusion
-- [ ] Properly hook up a registration page
+- [ ] Properly display backend errors on the frontend
 - [ ] Properly hook up a login page
 - [ ] Use cookies to determine logged in/out state
 - [ ] Set up redirects for registration and login
+- [ ] Write an svg2Halogen script to convert svg into https://github.com/JordanMartinez/purescript-halogen-svg-elems
 
 The frontend for nftree.eco
 

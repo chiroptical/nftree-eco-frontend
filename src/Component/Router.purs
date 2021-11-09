@@ -70,7 +70,7 @@ render { route } =
   navbar
     $ case route of
         Home -> HH.slot_ Home._home unit Home.component unit
-        Register -> HH.slot_ Register._register unit Register.component { statusCode: Nothing }
+        Register -> HH.slot_ Register._register unit Register.component { registrationError: Nothing }
         Login -> HH.slot_ Login._login unit Login.component { statusCode: Nothing }
 
 handleAction ::
@@ -81,18 +81,23 @@ handleAction ::
   H.HalogenM State Action ChildSlots o m Unit
 handleAction = case _ of
   Initialize -> do
-    initialRoute <- do
+    currentRoute <- H.gets _.route
+    mNextRoute <- do
       { pathname, search } <- locationState
       let
         result = parse routeCodec (pathname <> search)
-      log $ "Initialize " <> show result
       pure $ hush result
-    navigate $ fromMaybe Home initialRoute
+    when (Just currentRoute /= mNextRoute)
+      $ do
+          log $ "Initialize, currentRoute: " <> show currentRoute <> " mNextRoute: " <> show mNextRoute
+          navigate $ fromMaybe Home mNextRoute
   GoTo new e -> do
     liftEffect $ preventDefault (toEvent e)
     old <- H.gets _.route
-    log $ "GoTo " <> show new <> " from " <> show old
-    when (old /= new) $ navigate new
+    when (old /= new)
+      $ do
+          log $ "GoTo " <> show new <> " from " <> show old
+          navigate new
 
 handleQuery ::
   forall a o m.
@@ -103,8 +108,9 @@ handleQuery = case _ of
   Navigate new a -> do
     old <- H.gets _.route
     when (old /= new)
-      $ H.modify_ _ { route = new }
-    log $ "Navigate to " <> show new <> " from " <> show old
+      $ do
+          H.modify_ _ { route = new }
+          log $ "Navigate to " <> show new <> " from " <> show old
     pure (Just a)
 
 navbar :: forall w. HH.HTML w Action -> HH.HTML w Action

@@ -1,27 +1,32 @@
 module Page.Login where
 
 import Prelude
-import Effect.Class (class MonadEffect)
-import Type.Proxy (Proxy(..))
-import Halogen as H
-import Effect.Class.Console (log)
 import Data.Either (Either(..))
 import Data.Maybe (Maybe(..))
-import Halogen.HTML as HH
-import Service.Navigate (class Navigate)
-import Milkis as M
+import Data.User (User, userCodec)
 import Effect.Aff.Class (class MonadAff)
-import Milkis.Impl.Window (windowFetch)
-import Effect.Aff as Aff
+import Effect.Class (class MonadEffect)
+import Effect.Class.Console (log)
+import Form.RegisterLogin (formComponent)
+import Formless as F
+import Halogen as H
+import Halogen.HTML as HH
+import Halogen.HTML.Properties as HP
+import Milkis (statusCode, text)
+import Request as Request
+import Service.Navigate (class Navigate, navigate)
+import Service.Route as Route
+import Tailwind as T
+import Type.Proxy (Proxy(..))
 
 data Action
-  = Initialize
+  = HandleLoginForm User
 
 type Slot p
   = forall query. H.Slot query Void p
 
 type State
-  = { statusCode :: Maybe Int
+  = { loginError :: Maybe String
     }
 
 _login :: Proxy "login"
@@ -35,37 +40,65 @@ component ::
   H.Component q State o m
 component =
   H.mkComponent
-    { render
-    , initialState: identity
-    , eval:
-        H.mkEval
-          $ H.defaultEval
-              { handleAction = handleAction
-              , initialize = Just Initialize
-              }
+    { initialState: identity
+    , render
+    , eval: H.mkEval $ H.defaultEval { handleAction = handleAction }
     }
+  where
+  handleAction = case _ of
+    HandleLoginForm user -> do
+      response_ <- H.liftAff $ Request.post Request.AuthLogin userCodec user
+      -- TODO: Send user back to the home page
+      -- TODO: Move error handling into form component
+      case response_ of
+        Right response -> do
+          case statusCode response of
+            204 -> navigate Route.Home
+            403 -> do
+              body <- H.liftAff $ text response
+              H.modify_ $ _ { loginError = Just body }
+            500 -> H.modify_ $ _ { loginError = Just "Something went wrong..." }
+            _ -> H.modify_ $ _ { loginError = Just "TODO: email contact information" }
+        Left e -> do
+          log $ "Unable to handle request, got error: " <> show e
+          H.modify_ $ _ { loginError = Just "Unable to handle your request..." }
 
-fetch :: M.Fetch
-fetch = M.fetch windowFetch
-
-handleAction ::
-  forall s o m.
-  MonadAff m =>
-  Navigate m =>
-  Action ->
-  H.HalogenM State Action s o m Unit
-handleAction = case _ of
-  Initialize -> do
-    response_ <-
-      H.liftAff
-        $ Aff.attempt
-        $ fetch
-            -- TODO: Should have some kind of abstraction here
-            (M.URL $ "http://localhost:8080/login")
-            M.defaultFetchOptions
-    case response_ of
-      Right response -> H.put { statusCode: Just $ M.statusCode response }
-      Left e -> log $ "Left: " <> show e
-
-render :: forall action m. State -> H.ComponentHTML action () m
-render _ = HH.h1_ [ HH.text "Nothing here yet..." ]
+  render { loginError } =
+    HH.div
+      [ HP.classes
+          [ T.minHScreen
+          , T.flex
+          , T.itemsCenter
+          , T.justifyCenter
+          , T.bgGray50
+          , T.py12
+          , T.px4
+          , T.smPx6
+          , T.lgPx8
+          ]
+      ]
+      [ HH.div
+          [ HP.classes [ T.maxWMd, T.wFull, T.spaceY8 ] ]
+          [ HH.div_
+              -- TODO: We reload this svg over and over again...
+              [ HH.img
+                  [ HP.alt "Workflow"
+                  , HP.src "https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                  , HP.classes [ T.mxAuto, T.h12, T.wAuto ]
+                  ]
+              , HH.h2
+                  [ HP.classes [ T.mt6, T.textCenter, T.text3xl, T.fontExtrabold, T.textGray900 ] ]
+                  [ HH.text "Login to your account" ]
+              ]
+          ]
+      , HH.slot
+          F._formless
+          unit
+          (formComponent { buttonText: "Login" })
+          unit
+          HandleLoginForm
+      , -- TODO: Tailwind the heck out this
+        case loginError of
+          Nothing -> HH.text ""
+          Just message -> HH.text message
+      ]

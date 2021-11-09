@@ -17,7 +17,7 @@ build-prod: tailwind-css
 	parcel build prod/index.html --no-minify
 
 format:
-	purty format src/ --write
+	purs-tidy format-in-place "src/**/*.purs"
 
 # The tailwind commands are meant to be run in sequential order
 tailwind-base-css:

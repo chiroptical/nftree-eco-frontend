@@ -31,14 +31,15 @@ data FormAction
   = Submit Event.Event
 
 type Props
-  = { buttonText :: String
-    }
+  =
+  { buttonText :: String
+  }
 
-formComponent ::
-  forall formQuery formSlots formInput m.
-  MonadAff m =>
-  Props ->
-  F.Component RegistrationForm formQuery formSlots formInput User m
+formComponent
+  :: forall formQuery formSlots formInput m
+   . MonadAff m
+  => Props
+  -> F.Component RegistrationForm formQuery formSlots formInput User m
 formComponent { buttonText } =
   F.component formInput
     $ F.defaultSpec

@@ -1,4 +1,4 @@
-module Form.Registration where
+module Form.RegisterLogin where
 
 import Prelude
 import Data.Maybe (Maybe(..))
@@ -30,11 +30,16 @@ derive instance newtypeRegistrationForm :: Newtype (RegistrationForm r f) _
 data FormAction
   = Submit Event.Event
 
+type Props
+  = { buttonText :: String
+    }
+
 formComponent ::
   forall formQuery formSlots formInput m.
   MonadAff m =>
+  Props ->
   F.Component RegistrationForm formQuery formSlots formInput User m
-formComponent =
+formComponent { buttonText } =
   F.component formInput
     $ F.defaultSpec
         { render = renderForm
@@ -89,7 +94,7 @@ formComponent =
           ]
       , HH.input
           [ HP.type_ HP.InputSubmit
-          , HP.value "Register"
+          , HP.value buttonText
           , HP.classes Css.inputSubmit
           ]
       ]

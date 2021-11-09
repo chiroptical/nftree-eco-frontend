@@ -71,7 +71,7 @@ render { route } =
     $ case route of
         Home -> HH.slot_ Home._home unit Home.component unit
         Register -> HH.slot_ Register._register unit Register.component { registrationError: Nothing }
-        Login -> HH.slot_ Login._login unit Login.component { statusCode: Nothing }
+        Login -> HH.slot_ Login._login unit Login.component { loginError: Nothing }
 
 handleAction ::
   forall o m.

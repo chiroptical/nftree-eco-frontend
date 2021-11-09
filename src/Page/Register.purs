@@ -7,7 +7,7 @@ import Data.User (User, userCodec)
 import Effect.Aff.Class (class MonadAff)
 import Effect.Class (class MonadEffect)
 import Effect.Class.Console (log)
-import Form.Registration (formComponent)
+import Form.RegisterLogin (formComponent)
 import Formless as F
 import Halogen as H
 import Halogen.HTML as HH
@@ -94,10 +94,11 @@ component =
       , HH.slot
           F._formless
           unit
-          formComponent
+          (formComponent { buttonText: "Register" })
           unit
           HandleRegistrationForm
-      , -- TODO: Tailwind the heck out this case registrationError of case registrationError of
+      , -- TODO: Tailwind the heck out this
+        case registrationError of
           Nothing -> HH.text ""
           Just message -> HH.text message
       ]

@@ -6,7 +6,8 @@ import Halogen
 import Routing.PushState (LocationState)
 
 class
-  Monad m <= Navigate m where
+  Monad m <=
+  Navigate m where
   navigate :: Route -> m Unit
   locationState :: m LocationState
 

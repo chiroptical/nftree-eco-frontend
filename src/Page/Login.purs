@@ -26,18 +26,19 @@ type Slot p
   = forall query. H.Slot query Void p
 
 type State
-  = { loginError :: Maybe String
-    }
+  =
+  { loginError :: Maybe String
+  }
 
 _login :: Proxy "login"
 _login = Proxy
 
-component ::
-  forall q o m.
-  MonadAff m =>
-  MonadEffect m =>
-  Navigate m =>
-  H.Component q State o m
+component
+  :: forall q o m
+   . MonadAff m
+  => MonadEffect m
+  => Navigate m
+  => H.Component q State o m
 component =
   H.mkComponent
     { initialState: identity

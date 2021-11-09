@@ -22,8 +22,8 @@ renderBackendRoute =
   in
     M.URL
       <<< case _ of
-          AuthRegister -> host <> "auth/register"
-          AuthLogin -> host <> "auth/login"
+        AuthRegister -> host <> "auth/register"
+        AuthLogin -> host <> "auth/login"
 
 fetch :: M.Fetch
 fetch = M.fetch windowFetch

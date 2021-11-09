@@ -23,8 +23,9 @@ type Input
   = Route
 
 type State
-  = { route :: Route
-    }
+  =
+  { route :: Route
+  }
 
 data Action
   = Initialize
@@ -34,17 +35,18 @@ data Query a
   = Navigate Route a
 
 type ChildSlots
-  = ( home :: Home.Slot Unit
-    , register :: Register.Slot Unit
-    , login :: Login.Slot Unit
-    )
+  =
+  ( home :: Home.Slot Unit
+  , register :: Register.Slot Unit
+  , login :: Login.Slot Unit
+  )
 
-component ::
-  forall o m.
-  MonadEffect m =>
-  MonadAff m =>
-  Navigate m =>
-  H.Component Query Input o m
+component
+  :: forall o m
+   . MonadEffect m
+  => MonadAff m
+  => Navigate m
+  => H.Component Query Input o m
 component =
   H.mkComponent
     { initialState: \initialRoute -> { route: initialRoute }
@@ -59,13 +61,13 @@ component =
     }
 
 -- Renders a page component depending on which route is matched.
-render ::
-  forall m.
-  MonadEffect m =>
-  MonadAff m =>
-  Navigate m =>
-  State ->
-  H.ComponentHTML Action ChildSlots m
+render
+  :: forall m
+   . MonadEffect m
+  => MonadAff m
+  => Navigate m
+  => State
+  -> H.ComponentHTML Action ChildSlots m
 render { route } =
   navbar
     $ case route of
@@ -73,12 +75,12 @@ render { route } =
         Register -> HH.slot_ Register._register unit Register.component { registrationError: Nothing }
         Login -> HH.slot_ Login._login unit Login.component { loginError: Nothing }
 
-handleAction ::
-  forall o m.
-  MonadEffect m =>
-  Navigate m =>
-  Action ->
-  H.HalogenM State Action ChildSlots o m Unit
+handleAction
+  :: forall o m
+   . MonadEffect m
+  => Navigate m
+  => Action
+  -> H.HalogenM State Action ChildSlots o m Unit
 handleAction = case _ of
   Initialize -> do
     currentRoute <- H.gets _.route
@@ -99,11 +101,11 @@ handleAction = case _ of
           log $ "GoTo " <> show new <> " from " <> show old
           navigate new
 
-handleQuery ::
-  forall a o m.
-  MonadEffect m =>
-  Query a ->
-  H.HalogenM State Action ChildSlots o m (Maybe a)
+handleQuery
+  :: forall a o m
+   . MonadEffect m
+  => Query a
+  -> H.HalogenM State Action ChildSlots o m (Maybe a)
 handleQuery = case _ of
   Navigate new a -> do
     old <- H.gets _.route

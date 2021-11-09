@@ -3,6 +3,10 @@ module Tailwind where
 
 import Halogen.HTML.Core (ClassName(..))
 
+-- | absolute
+absolute :: ClassName
+absolute = ClassName "absolute"
+
 -- | appearanceNone
 appearanceNone :: ClassName
 appearanceNone = ClassName "appearance-none"
@@ -11,9 +15,17 @@ appearanceNone = ClassName "appearance-none"
 bgGray50 :: ClassName
 bgGray50 = ClassName "bg-gray-50"
 
+-- | bgIndigo50
+bgIndigo50 :: ClassName
+bgIndigo50 = ClassName "bg-indigo-50"
+
 -- | bgIndigo600
 bgIndigo600 :: ClassName
 bgIndigo600 = ClassName "bg-indigo-600"
+
+-- | bgWhite
+bgWhite :: ClassName
+bgWhite = ClassName "bg-white"
 
 -- | block
 block :: ClassName
@@ -23,17 +35,37 @@ block = ClassName "block"
 border :: ClassName
 border = ClassName "border"
 
+-- | borderB2
+borderB2 :: ClassName
+borderB2 = ClassName "border-b-2"
+
 -- | borderGray300
 borderGray300 :: ClassName
 borderGray300 = ClassName "border-gray-300"
+
+-- | borderIndigo500
+borderIndigo500 :: ClassName
+borderIndigo500 = ClassName "border-indigo-500"
+
+-- | borderL4
+borderL4 :: ClassName
+borderL4 = ClassName "border-l-4"
 
 -- | borderTransparent
 borderTransparent :: ClassName
 borderTransparent = ClassName "border-transparent"
 
+-- | flex1
+flex1 :: ClassName
+flex1 = ClassName "flex-1"
+
 -- | flex
 flex :: ClassName
 flex = ClassName "flex"
+
+-- | flexShrink0
+flexShrink0 :: ClassName
+flexShrink0 = ClassName "flex-shrink-0"
 
 -- | focusBorderIndigo500
 focusBorderIndigo500 :: ClassName
@@ -50,6 +82,10 @@ focusRing2 = ClassName "focus:ring-2"
 -- | focusRingIndigo500
 focusRingIndigo500 :: ClassName
 focusRingIndigo500 = ClassName "focus:ring-indigo-500"
+
+-- | focusRingInset
+focusRingInset :: ClassName
+focusRingInset = ClassName "focus:ring-inset"
 
 -- | focusRingOffset2
 focusRingOffset2 :: ClassName
@@ -75,21 +111,85 @@ group = ClassName "group"
 h12 :: ClassName
 h12 = ClassName "h-12"
 
+-- | h16
+h16 :: ClassName
+h16 = ClassName "h-16"
+
+-- | h6
+h6 :: ClassName
+h6 = ClassName "h-6"
+
+-- | h8
+h8 :: ClassName
+h8 = ClassName "h-8"
+
+-- | hidden
+hidden :: ClassName
+hidden = ClassName "hidden"
+
+-- | hoverBgGray100
+hoverBgGray100 :: ClassName
+hoverBgGray100 = ClassName "hover:bg-gray-100"
+
+-- | hoverBgGray50
+hoverBgGray50 :: ClassName
+hoverBgGray50 = ClassName "hover:bg-gray-50"
+
 -- | hoverBgIndigo700
 hoverBgIndigo700 :: ClassName
 hoverBgIndigo700 = ClassName "hover:bg-indigo-700"
+
+-- | hoverBorderGray300
+hoverBorderGray300 :: ClassName
+hoverBorderGray300 = ClassName "hover:border-gray-300"
+
+-- | hoverTextGray500
+hoverTextGray500 :: ClassName
+hoverTextGray500 = ClassName "hover:text-gray-500"
+
+-- | hoverTextGray700
+hoverTextGray700 :: ClassName
+hoverTextGray700 = ClassName "hover:text-gray-700"
+
+-- | inlineFlex
+inlineFlex :: ClassName
+inlineFlex = ClassName "inline-flex"
+
+-- | insetY0
+insetY0 :: ClassName
+insetY0 = ClassName "inset-y-0"
 
 -- | itemsCenter
 itemsCenter :: ClassName
 itemsCenter = ClassName "items-center"
 
+-- | justifyBetween
+justifyBetween :: ClassName
+justifyBetween = ClassName "justify-between"
+
 -- | justifyCenter
 justifyCenter :: ClassName
 justifyCenter = ClassName "justify-center"
 
+-- | left0
+left0 :: ClassName
+left0 = ClassName "left-0"
+
+-- | lgBlock
+lgBlock :: ClassName
+lgBlock = ClassName "lg:block"
+
+-- | lgHidden
+lgHidden :: ClassName
+lgHidden = ClassName "lg:hidden"
+
 -- | lgPx8
 lgPx8 :: ClassName
 lgPx8 = ClassName "lg:px-8"
+
+-- | maxW7xl
+maxW7xl :: ClassName
+maxW7xl = ClassName "max-w-7xl"
 
 -- | maxWMd
 maxWMd :: ClassName
@@ -98,6 +198,14 @@ maxWMd = ClassName "max-w-md"
 -- | minHScreen
 minHScreen :: ClassName
 minHScreen = ClassName "min-h-screen"
+
+-- | ml3
+ml3 :: ClassName
+ml3 = ClassName "ml-3"
+
+-- | mt2
+mt2 :: ClassName
+mt2 = ClassName "mt-2"
 
 -- | mt6
 mt6 :: ClassName
@@ -111,13 +219,53 @@ mt8 = ClassName "mt-8"
 mxAuto :: ClassName
 mxAuto = ClassName "mx-auto"
 
--- | negSpaceYPx
-negSpaceYPx :: ClassName
-negSpaceYPx = ClassName "-space-y-px"
+-- | originTopRight
+originTopRight :: ClassName
+originTopRight = ClassName "origin-top-right"
+
+-- | p1
+p1 :: ClassName
+p1 = ClassName "p-1"
+
+-- | p2
+p2 :: ClassName
+p2 = ClassName "p-2"
+
+-- | pb4
+pb4 :: ClassName
+pb4 = ClassName "pb-4"
+
+-- | pl3
+pl3 :: ClassName
+pl3 = ClassName "pl-3"
 
 -- | placeholderGray500
 placeholderGray500 :: ClassName
 placeholderGray500 = ClassName "placeholder-gray-500"
+
+-- | pr2
+pr2 :: ClassName
+pr2 = ClassName "pr-2"
+
+-- | pr4
+pr4 :: ClassName
+pr4 = ClassName "pr-4"
+
+-- | pt1
+pt1 :: ClassName
+pt1 = ClassName "pt-1"
+
+-- | pt2
+pt2 :: ClassName
+pt2 = ClassName "pt-2"
+
+-- | px1
+px1 :: ClassName
+px1 = ClassName "px-1"
+
+-- | px2
+px2 :: ClassName
+px2 = ClassName "px-2"
 
 -- | px3
 px3 :: ClassName
@@ -131,6 +279,10 @@ px4 = ClassName "px-4"
 py12 :: ClassName
 py12 = ClassName "py-12"
 
+-- | py1
+py1 :: ClassName
+py1 = ClassName "py-1"
+
 -- | py2
 py2 :: ClassName
 py2 = ClassName "py-2"
@@ -139,9 +291,25 @@ py2 = ClassName "py-2"
 relative :: ClassName
 relative = ClassName "relative"
 
--- | roundedBMd
-roundedBMd :: ClassName
-roundedBMd = ClassName "rounded-b-md"
+-- | right0
+right0 :: ClassName
+right0 = ClassName "right-0"
+
+-- | ring1
+ring1 :: ClassName
+ring1 = ClassName "ring-1"
+
+-- | ringBlack
+ringBlack :: ClassName
+ringBlack = ClassName "ring-black"
+
+-- | ringOpacity5
+ringOpacity5 :: ClassName
+ringOpacity5 = ClassName "ring-opacity-5"
+
+-- | roundedFull
+roundedFull :: ClassName
+roundedFull = ClassName "rounded-full"
 
 -- | roundedMd
 roundedMd :: ClassName
@@ -155,17 +323,61 @@ roundedNone = ClassName "rounded-none"
 roundedTMd :: ClassName
 roundedTMd = ClassName "rounded-t-md"
 
--- | shadowSm
-shadowSm :: ClassName
-shadowSm = ClassName "shadow-sm"
+-- | shadow
+shadow :: ClassName
+shadow = ClassName "shadow"
+
+-- | shadowLg
+shadowLg :: ClassName
+shadowLg = ClassName "shadow-lg"
+
+-- | smFlex
+smFlex :: ClassName
+smFlex = ClassName "sm:flex"
+
+-- | smHidden
+smHidden :: ClassName
+smHidden = ClassName "sm:hidden"
+
+-- | smInsetAuto
+smInsetAuto :: ClassName
+smInsetAuto = ClassName "sm:inset-auto"
+
+-- | smItemsStretch
+smItemsStretch :: ClassName
+smItemsStretch = ClassName "sm:items-stretch"
+
+-- | smJustifyStart
+smJustifyStart :: ClassName
+smJustifyStart = ClassName "sm:justify-start"
+
+-- | smMl6
+smMl6 :: ClassName
+smMl6 = ClassName "sm:ml-6"
+
+-- | smPr0
+smPr0 :: ClassName
+smPr0 = ClassName "sm:pr-0"
 
 -- | smPx6
 smPx6 :: ClassName
 smPx6 = ClassName "sm:px-6"
 
+-- | smSpaceX8
+smSpaceX8 :: ClassName
+smSpaceX8 = ClassName "sm:space-x-8"
+
+-- | smStatic
+smStatic :: ClassName
+smStatic = ClassName "sm:static"
+
 -- | smTextSm
 smTextSm :: ClassName
 smTextSm = ClassName "sm:text-sm"
+
+-- | spaceY1
+spaceY1 :: ClassName
+spaceY1 = ClassName "space-y-1"
 
 -- | spaceY6
 spaceY6 :: ClassName
@@ -183,13 +395,33 @@ srOnly = ClassName "sr-only"
 text3xl :: ClassName
 text3xl = ClassName "text-3xl"
 
+-- | textBase
+textBase :: ClassName
+textBase = ClassName "text-base"
+
 -- | textCenter
 textCenter :: ClassName
 textCenter = ClassName "text-center"
 
+-- | textGray400
+textGray400 :: ClassName
+textGray400 = ClassName "text-gray-400"
+
+-- | textGray500
+textGray500 :: ClassName
+textGray500 = ClassName "text-gray-500"
+
+-- | textGray700
+textGray700 :: ClassName
+textGray700 = ClassName "text-gray-700"
+
 -- | textGray900
 textGray900 :: ClassName
 textGray900 = ClassName "text-gray-900"
+
+-- | textIndigo700
+textIndigo700 :: ClassName
+textIndigo700 = ClassName "text-indigo-700"
 
 -- | textSm
 textSm :: ClassName
@@ -199,6 +431,18 @@ textSm = ClassName "text-sm"
 textWhite :: ClassName
 textWhite = ClassName "text-white"
 
+-- | w48
+w48 :: ClassName
+w48 = ClassName "w-48"
+
+-- | w6
+w6 :: ClassName
+w6 = ClassName "w-6"
+
+-- | w8
+w8 :: ClassName
+w8 = ClassName "w-8"
+
 -- | wAuto
 wAuto :: ClassName
 wAuto = ClassName "w-auto"
@@ -206,3 +450,4 @@ wAuto = ClassName "w-auto"
 -- | wFull
 wFull :: ClassName
 wFull = ClassName "w-full"
+

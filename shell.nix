@@ -8,8 +8,10 @@ in
     buildInputs = with pkgs; [
       purescript
       spago
+      nodePackages.parcel-bundler
       easy-ps.purescript-language-server
       easy-ps.purs-tidy
+      easy-ps.pscid
 
       # Tailwind dependencies
       tailwind-purs
